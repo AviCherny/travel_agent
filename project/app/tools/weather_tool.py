@@ -30,7 +30,7 @@ class WeatherData(BaseModel):
     '''
     Domain Models for Weather Tool
     '''
-
+    destination: City
     temperature: float
     weather_condition: WeatherCondition
 
@@ -47,6 +47,7 @@ def get_weather(destination: City, date: date) -> WeatherData:
 
 
     return WeatherData(
+    destination=destination,
     temperature=data["temperature"],
     weather_condition=data["condition"]
 )
