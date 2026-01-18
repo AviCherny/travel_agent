@@ -57,24 +57,18 @@ class EvaluateTenantInput(BaseModel):
 
 class EvaluateTenantOutput(BaseModel):
     """
-    Output for tenant evaluation.
+    Final MCP output after DUBI decision.
 
-    This is the MCP response back to the client after DUBI processing.
+    This is a system-level decision, not internal agent data.
     """
-    tenant_id: str = Field(
-        default="unknown",
-        description="Identifier for the tenant being evaluated"
+    status: Literal["APPROVED", "REJECTED", "REVIEW"] = Field(
+        ..., description="Final system decision"
     )
 
-    evaluation_score: float = Field(
-        ..., ge=0, le=100, description="Evaluation score from 0 (bad) to 100 (excellent)"
+    score: int = Field(
+        ..., ge=0, le=100, description="Overall tenant evaluation score"
     )
 
-    evaluation_details: dict = Field(
-        default_factory=dict,
-        description="Detailed breakdown of the evaluation"
-    )
-
-    is_approved: bool = Field(
-        ..., description="Whether the tenant is approved or not"
+    reason: str = Field(
+        ..., description="Primary explanation for the decision"
     )
